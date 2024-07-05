@@ -1,5 +1,6 @@
 package com.bongbong.watchbaseball.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,8 @@ public class GetGamesByName {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @Schema( name = " GameController - /game ", description = "팀 경기 일정 조회 Response")
+
     public static class Response{
         private String oppositionTeam;
         private LocalDate gameDate;
