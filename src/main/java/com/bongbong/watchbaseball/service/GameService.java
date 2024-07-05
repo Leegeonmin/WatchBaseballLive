@@ -2,6 +2,8 @@ package com.bongbong.watchbaseball.service;
 
 import com.bongbong.watchbaseball.domain.GameEntity;
 import com.bongbong.watchbaseball.dto.GameDto;
+import com.bongbong.watchbaseball.exception.CustomException;
+import com.bongbong.watchbaseball.exception.ErrorCode;
 import com.bongbong.watchbaseball.repository.GameRepository;
 import com.bongbong.watchbaseball.type.TeamName;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,7 @@ public class GameService {
         TeamName teamName = TeamName.getTeamByString(teamNameString).orElseThrow(
                 () ->{
                     log.warn("Invalid team name provided: {}", teamNameString);
-                    return new NoSuchElementException();
+                    return new CustomException(ErrorCode.TEAM_NOT_FOUND);
                 }
         );
 
