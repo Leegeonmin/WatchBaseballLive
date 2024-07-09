@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Service
 @RequiredArgsConstructor
 @RequestMapping("/game")
 @Slf4j
