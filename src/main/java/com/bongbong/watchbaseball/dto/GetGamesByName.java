@@ -14,7 +14,6 @@ public class GetGamesByName {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    @Schema( name = " GameController - /game ", description = "팀 경기 일정 조회 Response")
 
     public static class Response{
         private String oppositionTeam;
