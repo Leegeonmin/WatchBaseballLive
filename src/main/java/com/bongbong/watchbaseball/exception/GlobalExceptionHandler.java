@@ -60,10 +60,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
         log.error("Exception is occurred", e);
-        return ResponseEntity.status(ErrorCode.BAD_REQUEST.getHttpStatus()).body(
+        return ResponseEntity.status(ErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus()).body(
                 CustomErrorResponse.builder()
-                        .errorCode(ErrorCode.BAD_REQUEST)
-                        .message(ErrorCode.BAD_REQUEST.getDescription())
+                        .errorCode(ErrorCode.INTERNAL_SERVER_ERROR)
+                        .message(ErrorCode.INTERNAL_SERVER_ERROR.getDescription())
                         .build()
         );
     }
