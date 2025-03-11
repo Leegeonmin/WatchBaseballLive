@@ -51,7 +51,6 @@ public class GameController {
           " KIA, SAMSUNG, SSG, NC, LG, KIWOOM, " +
           "KT, HANWHA", example = "LG")
       String teamname) {
-    log.info("Requesting games for team: {}", teamname);
     List<GameDto> gamesByTeamName = gameService.findGamesByTeamName(teamname);
     return ResponseEntity.ok(gamesByTeamName.stream().map(
         x -> GetGamesByName.Response.builder()

@@ -28,19 +28,14 @@ public class GameService {
    * @return 상대팀이름과 경기날짜로 구성된 리스트
    */
   public List<GameDto> findGamesByTeamName(String teamNameString) {
-    log.debug("Searching for games with team name: {}", teamNameString);
     TeamName teamName = TeamName.getTeamByString(teamNameString).orElseThrow(
-        () -> {
-          log.warn("Invalid team name provided: {}", teamNameString);
-          return new CustomException(ErrorCode.TEAM_NOT_FOUND);
-        }
+        () -> new CustomException(ErrorCode.TEAM_NOT_FOUND)
     );
 
     LocalDateTime currentDay = LocalDateTime.now();
     List<GameEntity> gameEntities = gameRepository.findByGameTimeAfterAndHomeTeamOrGameTimeAfterAndAwayTeam(
         currentDay, teamName, currentDay, teamName
     );
-    log.info("Found {} games for team: {}", gameEntities.size(), teamName);
 
     return gameEntities.stream().map(
         x -> GameDto.builder()
