@@ -1,6 +1,6 @@
 package com.bongbong.watchbaseball.controller;
 
-import com.bongbong.watchbaseball.dto.getGameListByTeamNameResponse;
+import com.bongbong.watchbaseball.dto.GetGameListByTeamNameResponse;
 import com.bongbong.watchbaseball.exception.CustomErrorResponse;
 import com.bongbong.watchbaseball.service.GameService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,12 +38,12 @@ public class GameController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Success",
           content = {
-              @Content(array = @ArraySchema(schema = @Schema(implementation = getGameListByTeamNameResponse.class)))}),
+              @Content(array = @ArraySchema(schema = @Schema(implementation = GetGameListByTeamNameResponse.class)))}),
       @ApiResponse(responseCode = "404", description = "Not Found",
           content = {
               @Content(array = @ArraySchema(schema = @Schema(implementation = CustomErrorResponse.class)))}),
   })
-  public ResponseEntity<List<getGameListByTeamNameResponse>> getGamesByName(
+  public ResponseEntity<List<GetGameListByTeamNameResponse>> getGamesByName(
       @RequestParam(name = "teamname")
       @Schema(description = "허용된 값: LOTTE, DOSAN," +
           " KIA, SAMSUNG, SSG, NC, LG, KIWOOM, " +

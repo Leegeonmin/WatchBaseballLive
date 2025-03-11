@@ -1,7 +1,7 @@
 package com.bongbong.watchbaseball.service;
 
 import com.bongbong.watchbaseball.domain.GameEntity;
-import com.bongbong.watchbaseball.dto.getGameListByTeamNameResponse;
+import com.bongbong.watchbaseball.dto.GetGameListByTeamNameResponse;
 import com.bongbong.watchbaseball.exception.CustomException;
 import com.bongbong.watchbaseball.exception.ErrorCode;
 import com.bongbong.watchbaseball.repository.GameRepository;
@@ -27,7 +27,7 @@ public class GameService {
    * @param teamNameString 팀이름
    * @return 상대팀이름과 경기날짜로 구성된 리스트
    */
-  public List<getGameListByTeamNameResponse> findGamesByTeamName(String teamNameString) {
+  public List<GetGameListByTeamNameResponse> findGamesByTeamName(String teamNameString) {
     TeamName teamName = TeamName.getTeamByString(teamNameString).orElseThrow(
             () -> new CustomException(ErrorCode.TEAM_NOT_FOUND)
     );
@@ -38,7 +38,7 @@ public class GameService {
     );
 
     return gameEntities.stream().map(x ->
-                    getGameListByTeamNameResponse.builder()
+                    GetGameListByTeamNameResponse.builder()
                     .gameDate(x.getGameTime().toLocalDate())
                     .oppositionTeam(
                             x.getHomeTeam() == teamName ? x.getAwayTeam().name() : x.getHomeTeam().name())
