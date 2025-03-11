@@ -13,7 +13,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class GameDto {
+public class getGameListByTeamNameResponse {
     private String oppositionTeam;
     private LocalDate gameDate;
+    private String location;
 }

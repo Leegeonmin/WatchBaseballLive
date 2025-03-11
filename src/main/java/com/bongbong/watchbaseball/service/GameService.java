@@ -1,7 +1,7 @@
 package com.bongbong.watchbaseball.service;
 
 import com.bongbong.watchbaseball.domain.GameEntity;
-import com.bongbong.watchbaseball.dto.GameDto;
+import com.bongbong.watchbaseball.dto.getGameListByTeamNameResponse;
 import com.bongbong.watchbaseball.exception.CustomException;
 import com.bongbong.watchbaseball.exception.ErrorCode;
 import com.bongbong.watchbaseball.repository.GameRepository;
@@ -27,22 +27,23 @@ public class GameService {
    * @param teamNameString 팀이름
    * @return 상대팀이름과 경기날짜로 구성된 리스트
    */
-  public List<GameDto> findGamesByTeamName(String teamNameString) {
+  public List<getGameListByTeamNameResponse> findGamesByTeamName(String teamNameString) {
     TeamName teamName = TeamName.getTeamByString(teamNameString).orElseThrow(
-        () -> new CustomException(ErrorCode.TEAM_NOT_FOUND)
+            () -> new CustomException(ErrorCode.TEAM_NOT_FOUND)
     );
 
     LocalDateTime currentDay = LocalDateTime.now();
     List<GameEntity> gameEntities = gameRepository.findByGameTimeAfterAndHomeTeamOrGameTimeAfterAndAwayTeam(
-        currentDay, teamName, currentDay, teamName
+            currentDay, teamName, currentDay, teamName
     );
 
-    return gameEntities.stream().map(
-        x -> GameDto.builder()
-            .gameDate(x.getGameTime().toLocalDate())
-            .oppositionTeam(
-                x.getHomeTeam() == teamName ? x.getAwayTeam().name() : x.getHomeTeam().name())
-            .build()
-    ).collect(Collectors.toList());
+    return gameEntities.stream().map(x ->
+                    getGameListByTeamNameResponse.builder()
+                    .gameDate(x.getGameTime().toLocalDate())
+                    .oppositionTeam(
+                            x.getHomeTeam() == teamName ? x.getAwayTeam().name() : x.getHomeTeam().name())
+                    .location(x.getLocation())
+                    .build()
+          ).collect(Collectors.toList());
   }
 }

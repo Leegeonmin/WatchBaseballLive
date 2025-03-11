@@ -1,9 +1,7 @@
 package com.bongbong.watchbaseball.controller;
 
-import com.bongbong.watchbaseball.dto.GameDto;
-import com.bongbong.watchbaseball.dto.GetGamesByName;
+import com.bongbong.watchbaseball.dto.getGameListByTeamNameResponse;
 import com.bongbong.watchbaseball.exception.CustomErrorResponse;
-import com.bongbong.watchbaseball.exception.CustomException;
 import com.bongbong.watchbaseball.service.GameService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -40,22 +38,17 @@ public class GameController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Success",
           content = {
-              @Content(array = @ArraySchema(schema = @Schema(implementation = GetGamesByName.Response.class)))}),
+              @Content(array = @ArraySchema(schema = @Schema(implementation = getGameListByTeamNameResponse.class)))}),
       @ApiResponse(responseCode = "404", description = "Not Found",
           content = {
               @Content(array = @ArraySchema(schema = @Schema(implementation = CustomErrorResponse.class)))}),
   })
-  public ResponseEntity<List<GetGamesByName.Response>> getGamesByName(
+  public ResponseEntity<List<getGameListByTeamNameResponse>> getGamesByName(
       @RequestParam(name = "teamname")
       @Schema(description = "허용된 값: LOTTE, DOSAN," +
           " KIA, SAMSUNG, SSG, NC, LG, KIWOOM, " +
           "KT, HANWHA", example = "LG")
       String teamname) {
-    List<GameDto> gamesByTeamName = gameService.findGamesByTeamName(teamname);
-    return ResponseEntity.ok(gamesByTeamName.stream().map(
-        x -> GetGamesByName.Response.builder()
-            .gameDate(x.getGameDate())
-            .oppositionTeam(x.getOppositionTeam()).build()
-    ).toList());
+    return ResponseEntity.ok(gameService.findGamesByTeamName(teamname));
   }
 }
