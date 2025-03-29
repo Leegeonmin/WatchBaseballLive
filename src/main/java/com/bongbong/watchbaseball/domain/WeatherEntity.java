@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Entity(name = "weather")
 @NoArgsConstructor
-@ToString
 @Builder
 @AllArgsConstructor
 @Getter

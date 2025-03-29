@@ -16,7 +16,6 @@ import java.util.List;
 
 @Entity(name = "game")
 @NoArgsConstructor
-@ToString
 @Builder
 @AllArgsConstructor
 @Getter
@@ -29,7 +28,7 @@ public class GameEntity {
     @NotNull
     private LocalDateTime gameTime;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
     private List<GameTeam> gameTeams;
 
     @NotBlank

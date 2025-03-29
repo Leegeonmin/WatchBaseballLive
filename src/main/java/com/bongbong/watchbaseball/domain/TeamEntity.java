@@ -14,7 +14,6 @@ import java.util.List;
 @Entity(name = "team")
 @NoArgsConstructor
 @Getter
-@ToString
 @Builder
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -27,12 +26,16 @@ public class TeamEntity {
     @JoinColumn(name = "stadium_id", nullable = false)
     private StadiumEntity stadium;
 
+    @OneToMany(mappedBy = "team",fetch =FetchType.LAZY)
+    private List<GameTeam> gameTeams;
+
+    @OneToOne
+    @JoinColumn(name = "weather_id")
+    private WeatherEntity weather;
+
     @NotBlank
     @Column(length = 20)
     private String name;
-
-    @OneToMany(mappedBy = "team")
-    private List<GameTeam> gameTeams;
 
     @LastModifiedDate
     private LocalDateTime updatedDate;
