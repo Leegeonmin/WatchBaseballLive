@@ -32,5 +32,15 @@ public enum TeamName {
         }
         return Optional.empty();  // 일치하는 팀이 없을 경우
     }
+    public static Optional<String> getKoreanNameByTeamName(String teamName) {
+        for (TeamName team : TeamName.values()) {
+            if (team.name().equalsIgnoreCase(teamName)) {
+                return Optional.of(team.getKoreanName());
+            }
+        }
+        return Optional.empty(); // 일치하는 팀이 없을 경우
+    }
+
+
 
 }
