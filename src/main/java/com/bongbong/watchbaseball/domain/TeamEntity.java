@@ -1,11 +1,8 @@
 package com.bongbong.watchbaseball.domain;
 
-
-
-import com.bongbong.watchbaseball.type.TeamName;
+import com.bongbong.watchbaseball.domain.StadiumEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,27 +11,28 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity(name = "game")
+@Entity(name = "team")
 @NoArgsConstructor
+@Getter
 @ToString
 @Builder
 @AllArgsConstructor
-@Getter
 @EntityListeners(AuditingEntityListener.class)
-public class GameEntity {
+public class TeamEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
-    private LocalDateTime gameTime;
-
-    @OneToMany(mappedBy = "game")
-    private List<GameTeam> gameTeams;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stadium_id", nullable = false)
+    private StadiumEntity stadium;
 
     @NotBlank
     @Column(length = 20)
-    private String location;
+    private String name;
+
+    @OneToMany(mappedBy = "team")
+    private List<GameTeam> gameTeams;
 
     @LastModifiedDate
     private LocalDateTime updatedDate;
