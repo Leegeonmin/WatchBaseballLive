@@ -1,5 +1,6 @@
 package com.bongbong.watchbaseball.controller;
 
+import com.bongbong.watchbaseball.dto.GameScheduleDTO;
 import com.bongbong.watchbaseball.dto.GetGameListByTeamNameResponse;
 import com.bongbong.watchbaseball.exception.CustomErrorResponse;
 import com.bongbong.watchbaseball.service.GameService;
@@ -27,6 +28,31 @@ public class GameController {
   private final GameService gameService;
 
 
+//  /**
+//   * 경기일정 검색 API
+//   *
+//   * @param teamname 팀이름
+//   * @return 상대팀이름과 경기날짜로 구성된 리스트
+//   */
+//  @Operation(summary = "팀의 경기 일정을 조회")
+//  @GetMapping
+//  @ApiResponses(value = {
+//      @ApiResponse(responseCode = "200", description = "Success",
+//          content = {
+//              @Content(array = @ArraySchema(schema = @Schema(implementation = GetGameListByTeamNameResponse.class)))}),
+//      @ApiResponse(responseCode = "404", description = "Not Found",
+//          content = {
+//              @Content(array = @ArraySchema(schema = @Schema(implementation = CustomErrorResponse.class)))}),
+//  })
+//  public ResponseEntity<List<GetGameListByTeamNameResponse>> getGamesByName(
+//      @RequestParam(name = "teamname")
+//      @Schema(description = "허용된 값: LOTTE, DOSAN," +
+//          " KIA, SAMSUNG, SSG, NC, LG, KIWOOM, " +
+//          "KT, HANWHA", example = "LG")
+//      String teamname) {
+//    return ResponseEntity.ok(gameService.findGamesByTeamName(teamname));
+//  }
+
   /**
    * 경기일정 검색 API
    *
@@ -36,19 +62,19 @@ public class GameController {
   @Operation(summary = "팀의 경기 일정을 조회")
   @GetMapping
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Success",
-          content = {
-              @Content(array = @ArraySchema(schema = @Schema(implementation = GetGameListByTeamNameResponse.class)))}),
-      @ApiResponse(responseCode = "404", description = "Not Found",
-          content = {
-              @Content(array = @ArraySchema(schema = @Schema(implementation = CustomErrorResponse.class)))}),
+          @ApiResponse(responseCode = "200", description = "Success",
+                  content = {
+                          @Content(array = @ArraySchema(schema = @Schema(implementation = GetGameListByTeamNameResponse.class)))}),
+          @ApiResponse(responseCode = "404", description = "Not Found",
+                  content = {
+                          @Content(array = @ArraySchema(schema = @Schema(implementation = CustomErrorResponse.class)))}),
   })
-  public ResponseEntity<List<GetGameListByTeamNameResponse>> getGamesByName(
-      @RequestParam(name = "teamname")
-      @Schema(description = "허용된 값: LOTTE, DOSAN," +
-          " KIA, SAMSUNG, SSG, NC, LG, KIWOOM, " +
-          "KT, HANWHA", example = "LG")
-      String teamname) {
-    return ResponseEntity.ok(gameService.findGamesByTeamName(teamname));
+  public ResponseEntity<List<GameScheduleDTO>> getGamesByNamev2(
+          @RequestParam(name = "teamname")
+          @Schema(description = "허용된 값: LOTTE, DOSAN," +
+                  " KIA, SAMSUNG, SSG, NC, LG, KIWOOM, " +
+                  "KT, HANWHA", example = "LG")
+          String teamname) {
+    return ResponseEntity.ok(gameService.findGamesByTeamNamev2(teamname));
   }
 }
