@@ -4,20 +4,19 @@ import com.bongbong.watchbaseball.domain.GameEntity;
 import com.bongbong.watchbaseball.domain.GameTeam;
 import com.bongbong.watchbaseball.domain.TeamEntity;
 import com.bongbong.watchbaseball.dto.GameScheduleDTO;
-import com.bongbong.watchbaseball.dto.GetGameListByTeamNameResponse;
 import com.bongbong.watchbaseball.exception.CustomException;
 import com.bongbong.watchbaseball.exception.ErrorCode;
 import com.bongbong.watchbaseball.repository.GameRepository;
 import com.bongbong.watchbaseball.repository.GameTeamRepository;
 import com.bongbong.watchbaseball.repository.TeamRepository;
 import com.bongbong.watchbaseball.type.TeamName;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StopWatch;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
