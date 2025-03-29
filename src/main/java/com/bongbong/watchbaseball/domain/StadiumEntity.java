@@ -7,7 +7,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity(name = "stadium")
 @NoArgsConstructor
 @Getter
-@ToString
 @Builder
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
