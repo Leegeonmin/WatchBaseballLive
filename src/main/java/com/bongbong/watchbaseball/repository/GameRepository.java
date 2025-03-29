@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GameRepository extends JpaRepository<GameEntity, Long> {
 
-  List<GameEntity> findByGameTimeAfterAndHomeTeamOrGameTimeAfterAndAwayTeam(LocalDateTime dateTime1,
-      TeamName homeTeam,
-      LocalDateTime dateTime2,
-      TeamName awayTeam);
+//  List<GameEntity> findByGameTimeAfterAndHomeTeamOrGameTimeAfterAndAwayTeam(LocalDateTime dateTime1,
+//      TeamName homeTeam,
+//      LocalDateTime dateTime2,
+//      TeamName awayTeam);
 }
