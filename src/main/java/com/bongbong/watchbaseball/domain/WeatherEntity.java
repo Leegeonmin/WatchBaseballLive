@@ -16,26 +16,26 @@ public class WeatherEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "날씨ID")
+    @Column
     private Long id;
 
-    @Column(name = "기상날짜", nullable = false)
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "날씨 설명", nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "최저 기온", nullable = false)
+    @Column(name = "min_temperature", nullable = false)
     private double minTemperature;
 
-    @Column(name = "최고 기온", nullable = false)
+    @Column(name = "max_temperature", nullable = false)
     private double maxTemperature;
 
-    @Column(name = "강수 확률 (%)", nullable = false)
+    @Column(name = "precipitation_probability", nullable = false)
     private int precipitationProbability;
 
     @ManyToOne
-    @JoinColumn(name = "스타디움id", nullable = false)
+    @JoinColumn(name = "stadium_id", nullable = false)
     private StadiumEntity stadium;
 
 }

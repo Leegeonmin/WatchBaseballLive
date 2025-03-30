@@ -31,9 +31,7 @@ public class TeamEntity {
     @OneToMany(mappedBy = "team",fetch =FetchType.LAZY)
     private List<GameTeam> gameTeams;
 
-    @OneToOne
-    @JoinColumn(name = "weather_id")
-    private WeatherEntity weather;
+
 
     @NotBlank
     @Column(length = 20)
