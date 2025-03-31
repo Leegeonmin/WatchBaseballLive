@@ -26,6 +26,17 @@ public class WeatherProvider {
 
     private final RestClient restClient;
 
+    /**
+     * Retrieves medium precipitation data for a specified region.
+     *
+     * <p>This method constructs a query string using the current date (formatted as "yyyyMMdd") appended with a fixed
+     * time component ("0600"), alongside the region identifier, API key, and data type parameters. It then sends a GET
+     * request to the configured medium precipitation endpoint and maps the response to a {@code MediumPrecipitationResponse}.
+     * </p>
+     *
+     * @param regId the region identifier for which precipitation data is requested
+     * @return the medium precipitation response containing forecast data
+     */
     public MediumPrecipitationResponse getMediumPrecipitation(String regId) {
         String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String urlQuery = "?" + "serviceKey=" + api_key + "&" +

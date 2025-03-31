@@ -14,6 +14,14 @@ public class WebConfig {
     @Value("${spring.weather-open-api.base-url}")
     private String baseURL;
 
+    /**
+     * Creates and configures a RestClient bean.
+     *
+     * <p>This method sets up a RestClient with a custom URI builder factory that disables URI encoding,
+     * and registers a request interceptor which logs the URI of each outgoing request before executing it.</p>
+     *
+     * @return a configured RestClient instance for making HTTP requests
+     */
     @Bean
     public RestClient restClient() {
         DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
