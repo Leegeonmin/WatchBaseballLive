@@ -3,6 +3,7 @@ package com.bongbong.watchbaseball.service;
 import com.bongbong.watchbaseball.domain.GameEntity;
 import com.bongbong.watchbaseball.domain.GameTeam;
 import com.bongbong.watchbaseball.domain.TeamEntity;
+ import com.bongbong.watchbaseball.domain.WeatherEntity;
 import com.bongbong.watchbaseball.dto.GameScheduleDTO;
 import com.bongbong.watchbaseball.exception.CustomException;
 import com.bongbong.watchbaseball.exception.ErrorCode;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,34 +28,6 @@ public class GameService {
   private final GameRepository gameRepository;
   private final GameTeamRepository gameTeamRepository;
   private final TeamRepository teamRepository;
-
-//  /**
-//   * 팀이름으로 경기일정 찾기 팀이름이 유효한지 먼저 검증 후 조회
-//   *
-//   * @param teamNameString 팀이름
-//   * @return 상대팀이름과 경기날짜로 구성된 리스트
-//   */
-//  public List<GetGameListByTeamNameResponse> findGamesByTeamName(String teamNameString) {
-//    TeamName teamName = TeamName.getTeamByString(teamNameString).orElseThrow(
-//            () -> new CustomException(ErrorCode.TEAM_NOT_FOUND)
-//    );
-//
-//    LocalDateTime currentDay = LocalDateTime.now();
-//    List<GameEntity> gameEntities = gameRepository.findByGameTimeAfterAndHomeTeamOrGameTimeAfterAndAwayTeam(
-//            currentDay, teamName, currentDay, teamName
-//    );
-//
-//    return gameEntities.stream().map(x ->
-//            GetGameListByTeamNameResponse.builder()
-//                    .gameDate(x.getGameTime().toLocalDate())
-//                    .oppositionTeam(
-//                            "oppositionTeam")
-//                    .location(x.getLocation())
-//                    .build()
-//    ).collect(Collectors.toList());
-//  }
-
-
     // v2
     public List<GameScheduleDTO> findGamesByTeamNamev2(String teamNameString) {
         // application
@@ -89,15 +63,25 @@ public class GameService {
                     } else {
                         stadiumName = opponent.getStadium().getName(); // 원정 팀의 구장
                     }
-
+                    WeatherEntity weather = game.getWeather();
                     return new GameScheduleDTO(
                             game.getGameTime(),          // 게임 시간
                             game.getLocation(),          // 경기 위치
                             opponent.getName(),          // 상대 팀
                             gameTeam.isHomeGame(),       // 홈 경기 여부
-                            stadiumName                  // 구장 이름
+                            stadiumName,                  // 구장 이름
+                            weather != null ? weather.getMinTemperature() : -1,
+                            weather != null ? weather.getMaxTemperature() : -1,
+                            weather != null ? weather.getDescription() : "-1",
+                            weather != null ? weather.getPrecipitationProbability() : -1
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void updateWeatherForGame(String location, LocalDate date, WeatherEntity weather) {
+        // 1. 해당 경기장 + 날짜에 해당하는 GameEntity 찾기
+        GameEntity gameEntity = gameRepository.findByLocationAndDate(location, date);
+        if(gameEntity != null) gameEntity.setWeather(weather);
     }
 }
