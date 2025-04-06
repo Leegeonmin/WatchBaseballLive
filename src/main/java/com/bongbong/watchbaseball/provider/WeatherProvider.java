@@ -2,6 +2,8 @@ package com.bongbong.watchbaseball.provider;
 
 import com.bongbong.watchbaseball.dto.weatherapi.MediumPrecipitationResponse;
 import com.bongbong.watchbaseball.dto.weatherapi.MediumTemperatureResponse;
+import com.bongbong.watchbaseball.exception.CustomException;
+import com.bongbong.watchbaseball.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,7 +34,12 @@ public class WeatherProvider {
         MediumPrecipitationResponse response = restClient.get()
                 .uri(mediumPrecipitationURL + getUrlQuery(regId))
                 .retrieve()
-//                .onStatus() 에러처리 !!해야됨
+                .onStatus(
+                        status -> status.is4xxClientError() || status.is5xxServerError(),
+                        (req, res) -> {
+                            throw new CustomException(ErrorCode.OPENAPI_SERVER_ERROR);
+                        }
+                )
                 .body(MediumPrecipitationResponse.class);
         return response;
     }
@@ -41,7 +48,12 @@ public class WeatherProvider {
         MediumTemperatureResponse response = restClient.get()
                 .uri(mediumTemperatureURL + getUrlQuery(regId))
                 .retrieve()
-//                .onStatus() 에러처리 !!해야됨
+                .onStatus(
+                        status -> status.is4xxClientError() || status.is5xxServerError(),
+                        (req, res) -> {
+                            throw new CustomException(ErrorCode.OPENAPI_SERVER_ERROR);
+                        }
+                )
                 .body(MediumTemperatureResponse.class);
         return response;
     }
