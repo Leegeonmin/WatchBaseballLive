@@ -9,7 +9,7 @@ public record GameScheduleDTO(
         boolean isHomeGame,       // 홈 경기 여부
         String stadiumName,        // 구장 이름
         Double minTemperature,
-        Double MaxTemperature,
+        Double maxTemperature,
         String weatherDescription,
         int rainProbability
 ) { }
