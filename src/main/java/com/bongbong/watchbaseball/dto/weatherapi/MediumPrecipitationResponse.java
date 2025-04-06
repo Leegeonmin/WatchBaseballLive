@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MediumPrecipitationResponse {
 
@@ -19,7 +18,6 @@ public class MediumPrecipitationResponse {
 
     @Getter
     @NoArgsConstructor
-    @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Response {
 
@@ -39,7 +37,6 @@ public class MediumPrecipitationResponse {
 
     @Getter
     @NoArgsConstructor
-    @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Items {
 
@@ -49,7 +46,6 @@ public class MediumPrecipitationResponse {
 
     @Getter
     @NoArgsConstructor
-    @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class MediumPrecipitationItem {
 

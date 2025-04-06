@@ -1,6 +1,7 @@
 package com.bongbong.watchbaseball.provider;
 
 import com.bongbong.watchbaseball.dto.weatherapi.MediumPrecipitationResponse;
+import com.bongbong.watchbaseball.dto.weatherapi.MediumTemperatureResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,8 +38,20 @@ public class WeatherProvider {
                 .retrieve()
 //                .onStatus() 에러처리 !!해야됨
                 .body(MediumPrecipitationResponse.class);
+        return response;
+    }
 
-
+    public MediumTemperatureResponse getMediumTemperature(String regId) {
+        String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String urlQuery = "?" + "serviceKey=" + api_key + "&" +
+                "dataType=JSON&" +
+                "regId=" + regId + "&" +
+                "tmFc=" + currentDate + "0600";
+        MediumTemperatureResponse response = restClient.get()
+                .uri(mediumTemperatureURL + urlQuery)
+                .retrieve()
+//                .onStatus() 에러처리 !!해야됨
+                .body(MediumTemperatureResponse.class);
         return response;
     }
 }
