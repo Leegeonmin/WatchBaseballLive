@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class WeatherScheduler {
     private final WeatherService weatherService;
 
-    @Scheduled(cron = "0 30 6 * * *")
+    @Scheduled(cron = "0 30 7 * * *")
     public void updateWeatherEveryMorning() {
         weatherService.saveWeatherFromApiScheduling();
     }
