@@ -43,6 +43,13 @@ public class WeatherService {
                 LocalDate date = LocalDate.now().plusDays(day);
                 WeatherEntity weather = weatherEntityRepository.findByStadiumAndDate(stadiumEntity, date)
                         .orElse(null);
+
+                if(mediumTemperature.getResponse().getBody().getItems().getItem().get(0) == null ||
+                        mediumPrecipitation.getResponse().getBody().getItems().getItem().get(0) == null) {
+                    log.error("could not get weather data {} {}", stadiumEntity.getName(), date.toString());
+                    continue;
+                }
+
                 double minTemp = getTempValue(day, true, mediumTemperature.getResponse().getBody().getItems().getItem().get(0));
                 double maxTemp = getTempValue(day, false, mediumTemperature.getResponse().getBody().getItems().getItem().get(0));
                 int precipitation = getPrecipitationValue(day, mediumPrecipitation.getResponse().getBody().getItems().getItem().get(0));
