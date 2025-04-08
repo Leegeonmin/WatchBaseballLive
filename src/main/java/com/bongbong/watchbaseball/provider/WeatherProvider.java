@@ -1,10 +1,14 @@
 package com.bongbong.watchbaseball.provider;
 
 import com.bongbong.watchbaseball.dto.weatherapi.MediumPrecipitationResponse;
+import com.bongbong.watchbaseball.dto.weatherapi.MediumTemperatureResponse;
+import com.bongbong.watchbaseball.exception.CustomException;
+import com.bongbong.watchbaseball.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,18 +31,41 @@ public class WeatherProvider {
     private final RestClient restClient;
 
     public MediumPrecipitationResponse getMediumPrecipitation(String regId) {
-        String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String urlQuery = "?" + "serviceKey=" + api_key + "&" +
-                "dataType=JSON&" +
-                "regId=" + regId + "&" +
-                "tmFc=" + currentDate + "0600";
         MediumPrecipitationResponse response = restClient.get()
-                .uri(mediumPrecipitationURL + urlQuery)
+                .uri(mediumPrecipitationURL + getUrlQuery(regId))
                 .retrieve()
-//                .onStatus() 에러처리 !!해야됨
+                .onStatus(
+                        status -> status.is4xxClientError() || status.is5xxServerError(),
+                        (req, res) -> {
+                            throw new CustomException(ErrorCode.OPENAPI_SERVER_ERROR);
+                        }
+                )
                 .body(MediumPrecipitationResponse.class);
-
-
         return response;
+    }
+
+    public MediumTemperatureResponse getMediumTemperature(String regId) {
+        MediumTemperatureResponse response = restClient.get()
+                .uri(mediumTemperatureURL + getUrlQuery(regId))
+                .retrieve()
+                .onStatus(
+                        status -> status.is4xxClientError() || status.is5xxServerError(),
+                        (req, res) -> {
+                            throw new CustomException(ErrorCode.OPENAPI_SERVER_ERROR);
+                        }
+                )
+                .body(MediumTemperatureResponse.class);
+        return response;
+    }
+
+
+    private String getUrlQuery(String regId) {
+        String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        UriComponentsBuilder  url = UriComponentsBuilder.newInstance()
+                .queryParam("serviceKey", api_key)
+                .queryParam("dataType", "JSON")
+                .queryParam("regId", regId)
+                .queryParam("tmFc", currentDate + "0600");
+        return url.build().toUriString();
     }
 }

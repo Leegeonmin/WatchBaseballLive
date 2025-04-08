@@ -44,4 +44,8 @@ public class GameEntity {
     private LocalDateTime updatedDate;
     @CreatedDate
     private LocalDateTime createdDate;
+
+    public void setWeather(WeatherEntity weather) {
+        this.weather = weather;
+    }
 }

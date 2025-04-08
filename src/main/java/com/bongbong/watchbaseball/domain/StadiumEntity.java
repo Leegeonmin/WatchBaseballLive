@@ -23,4 +23,7 @@ public class StadiumEntity {
 
     @Column(columnDefinition = "VARCHAR(20) comment '중기기온코드'", nullable = false)
     private String mediumTemperature;
+
+    @Column(columnDefinition = "VARCHAR(50) comment '구장 위치'", nullable = false)
+    private String location;
 }

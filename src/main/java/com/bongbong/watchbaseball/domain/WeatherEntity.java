@@ -38,4 +38,10 @@ public class WeatherEntity {
     @JoinColumn(name = "stadium_id", nullable = false)
     private StadiumEntity stadium;
 
+    public void update(double minTemp, double maxTemp, int precipitation, String description) {
+        this.minTemperature = minTemp;
+        this.maxTemperature = maxTemp;
+        this.precipitationProbability = precipitation;
+        this.description = description;
+    }
 }
